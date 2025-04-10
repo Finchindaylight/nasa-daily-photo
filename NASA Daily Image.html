@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>NASA 每日圖片</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    img, iframe {
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+  <div id="media"></div>
+
+  <script>
+    fetch('https://api.nasa.gov/planetary/apod?api_key=yeGPrJLbZC9suiqVufsKvEIHgF1tR5xtYYM6Mfxv')
+      .then(res => res.json())
+      .then(data => {
+        if (data.media_type === "image") {
+          document.getElementById('media').innerHTML = `<img src="${data.url}" alt="NASA APOD">`;
+        } else if (data.media_type === "video") {
+          document.getElementById('media').innerHTML = `<iframe src="${data.url}" frameborder="0" allowfullscreen></iframe>`;
+        }
+      })
+      .catch(err => {
+        document.body.innerHTML = '<p style="color:white;">無法載入圖片</p>';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
